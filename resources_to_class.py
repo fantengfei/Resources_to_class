@@ -69,9 +69,12 @@ def __method_implementation(name):
 def walk_dir(dir, file_m, file_h, topdown = True):
     for root, dirs, files in os.walk(dir, topdown):
         for name in files:
-            # print(name)
             str = __filter_filename(name)
             if str != None:
+                # 打印出没有夜间的图片
+                if not (str + __SUFIXX_FILE__ + '@2x.png') in files or not (str + __SUFIXX_FILE__ + '.png') in files:
+                    print(name)
+
                 __write_to_class_interface(str)
                 __write_to_class_implementation(str)
 
@@ -81,6 +84,7 @@ file_h = open(__CLASS_DIR__ + __CLASS_NAME_H__, 'w')
 file_m.write(__CLASS_HEADER_M__)
 file_h.write(__CLASS_HEADER_H__)
 
+print('没有夜间的资源有:\n')
 walk_dir(__RESOURCES_DIR__, file_m, file_h)
 
 file_m.write(__CLASS_END__)
